@@ -15,6 +15,12 @@ if (!getenv("TRANSLATOR_TEXT_ENDPOINT")) {
 } else {
     $endpoint = getenv("TRANSLATOR_TEXT_ENDPOINT");
 }
+if (!getenv("TRANSLATOR_TEXT_REGION")) {
+    throw new Exception ("Please set/export the following environment variable: TRANSLATOR_TEXT_REGION");
+} else {
+    $region = getenv("TRANSLATOR_TEXT_REGION");
+}
+
 
 $path = "/translate?api-version=3.0";
 
@@ -40,6 +46,7 @@ function Translate ($host, $path, $key, $params, $content) {
     $headers = "Content-type: application/json\r\n" .
         "Content-length: " . strlen($content) . "\r\n" .
         "Ocp-Apim-Subscription-Key: $key\r\n" .
+        "Ocp-Apim-Subscription-Region: $region\r\n" .
         "X-ClientTraceId: " . com_create_guid() . "\r\n";
 
     // NOTE: Use the key 'http' even if you are making an HTTPS request. See:
